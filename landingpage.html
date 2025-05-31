@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenos Max - Revolusi Digital Anda Dimulai Di Sini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-primary: 'Lexend', sans-serif;
+            --font-secondary: 'Space Grotesk', sans-serif; 
+
+            --bg-light: #f8f9fa; 
+            --text-light: #212529; 
+            --card-light: #ffffff;
+            --border-light: #dee2e6; 
+            --accent1-light: #7c3aed; 
+            --accent1-hover-light: #6d28d9; 
+            --accent2-light: #facc15; 
+            --text-on-accent-light: #ffffff;
+
+            --bg-dark: #0a0a14; 
+            --text-dark: #e9ecef; 
+            --card-dark: #1c1c2b; 
+            --border-dark: #343a40; 
+            --accent1-dark: #8b5cf6; 
+            --accent1-hover-dark: #7c3aed; 
+            --accent2-dark: #fde047; 
+            --text-on-accent-dark: #ffffff;
+        }
+        html.dark {
+            --bg-light: var(--bg-dark);
+            --text-light: var(--text-dark);
+            --card-light: var(--card-dark);
+            --border-light: var(--border-dark);
+            --accent1-light: var(--accent1-dark);
+            --accent1-hover-light: var(--accent1-hover-dark);
+            --accent2-light: var(--accent2-dark);
+        }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            transition: background-color 0.3s, color 0.3s;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .font-display { font-family: var(--font-secondary); }
+
+        .hero-bg { 
+            background: linear-gradient(145deg, var(--accent1-light) 0%, var(--accent2-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        html.dark .hero-bg {
+             background: linear-gradient(145deg, var(--accent1-dark) 0%, var(--accent2-dark) 100%);
+        }
+        .hero-bg::before, .hero-bg::after {
+            content: ''; position: absolute; border-radius: 50%; opacity: 0.05;
+            animation: pulseShape 20s infinite ease-in-out alternate;
+            background-color: #ffffff; 
+        }
+        html.dark .hero-bg::before, html.dark .hero-bg::after { background-color: var(--text-dark); opacity: 0.05;}
+
+
+        .hero-bg::before { width: 40vw; height: 40vw; top: -10vw; left: -10vw; animation-duration: 22s;}
+        .hero-bg::after { width: 50vw; height: 50vw; bottom: -15vw; right: -15vw; animation-delay: 3s; animation-duration: 18s;}
+
+        @keyframes pulseShape {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.05; }
+            50% { transform: scale(1.4) rotate(180deg); opacity: 0.1; }
+        }
+
+        .nav-bg { background-color: rgba(255, 255, 255, 0.7); } 
+        html.dark .nav-bg { background-color: rgba(10, 10, 20, 0.7); } 
+        
+        .card-bg { background-color: var(--card-light); border-color: var(--border-light); }
+        .text-color { color: var(--text-light); }
+        .border-color { border-color: var(--border-light); }
+        .accent1-bg { background-color: var(--accent1-light); }
+        .accent1-text { color: var(--accent1-light); }
+        .accent1-hover-bg:hover { background-color: var(--accent1-hover-light); }
+        .accent2-text { color: var(--accent2-light); }
+        .text-on-accent { color: var(--text-on-accent-light); }
+
+        .typewriter-cursor {
+            display: inline-block; width: 4px; height: 1.1em; 
+            background-color: var(--accent2-light); animation: blink 0.8s infinite;
+            margin-left: 3px; vertical-align: text-bottom; border-radius: 2px;
+        }
+        html.dark .typewriter-cursor { background-color: var(--accent2-dark); }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .product-item-card-multicolumn {
+            @apply card-bg rounded-xl shadow-lg flex flex-col border border-color transition-all duration-300 hover:shadow-2xl hover:border-var(--accent1-light) hover:-translate-y-1;
+            min-height: 210px; 
+        }
+        .product-item-multicolumn-grid {
+            @apply grid grid-cols-5 gap-4 p-5 flex-grow; 
+        }
+        .product-item-left-col {
+            @apply col-span-2 flex flex-col items-center text-center justify-start pt-2 pr-3 sm:pr-4 border-r border-color;
+        }
+        .product-item-right-col {
+            @apply col-span-3 flex flex-col justify-between pl-3 sm:pl-4 text-left;
+        }
+        .product-item-icon { @apply text-4xl sm:text-5xl mb-2; }
+        .product-item-name { @apply font-semibold text-sm sm:text-base leading-tight text-color mb-0.5; }
+        .product-item-category-tag { @apply text-xs font-medium opacity-60 mb-2; }
+        .product-item-duration-label, .product-item-price-label { @apply text-xs opacity-70 text-color;}
+        .product-item-duration-value { @apply text-sm font-medium text-color mb-1.5; }
+        .product-item-price-value { @apply font-display font-bold accent1-text text-lg sm:text-xl; }
+        
+        .add-to-order-btn {
+            @apply text-xs font-bold py-2.5 px-3 rounded-lg transition-all duration-200 whitespace-nowrap shadow-md hover:shadow-lg transform hover:scale-105 w-full mt-3;
+        }
+        .add-to-order-btn.added { @apply bg-green-500 hover:bg-green-600 text-white; }
+        .add-to-order-btn:not(.added) { @apply accent1-bg accent1-hover-bg text-on-accent; }
+
+        .modal { @apply fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[999] opacity-0 pointer-events-none transition-opacity duration-300; }
+        .modal.open { @apply opacity-100 pointer-events-auto; }
+        .modal-content { @apply card-bg p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-md max-h-[85vh] overflow-y-auto transform scale-95 transition-transform duration-300; }
+        .modal.open .modal-content { @apply scale-100; }
+        .order-item { @apply flex justify-between items-center py-2.5 border-b border-color; }
+
+        .floating-order-btn {
+            @apply fixed bottom-8 right-8 accent1-bg text-on-accent p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50 flex items-center justify-center;
+        }
+        .floating-order-btn .item-count {
+            @apply absolute -top-1.5 -right-1.5 bg-var(--accent2-light) text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white dark:border-var(--card-dark);
+        }
+        html.dark .floating-order-btn .item-count { background-color: var(--accent2-dark); }
+        
+        .button-primary {
+            @apply inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold rounded-lg shadow-md text-on-accent accent1-bg accent1-hover-bg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-var(--accent1-light);
+        }
+         .button-secondary {
+            @apply inline-flex items-center justify-center px-6 py-3 border-2 border-var(--accent1-light) text-base font-semibold rounded-lg text-var(--accent1-light) hover:bg-var(--accent1-light) hover:text-on-accent transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-var(--accent1-light);
+        }
+        html.dark .button-secondary {
+            @apply border-var(--accent1-dark) text-var(--accent1-dark) hover:bg-var(--accent1-dark) hover:text-on-accent-dark;
+        }
+        .animate-pop-in {
+            animation: popIn 0.3s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: translateY(10px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0px) scale(1); }
+        }
+        .how-to-order-step-icon {
+            @apply text-5xl mb-4 accent1-text font-black font-display;
+        }
+        html.dark .how-to-order-step-icon { @apply text-var(--accent1-dark); }
+
+
+    </style>
+</head>
+<body class="text-color">
+
+    <nav class="nav-bg backdrop-blur-md shadow-sm sticky top-0 z-[998] border-b border-color">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="text-3xl font-black font-display">
+                        <span id="storeNameNav" class="accent1-text">Zenos Max</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <a href="#productHub" class="text-sm font-semibold hover:accent1-text transition-colors px-2 py-1 rounded-md">Produk</a>
+                    <a href="#howToOrder" class="text-sm font-semibold hover:accent1-text transition-colors px-2 py-1 rounded-md">Cara Pesan</a>
+                    <button id="darkModeToggle" aria-label="Toggle Dark Mode" class="p-2.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-xl">
+                        <span class="dark-mode-icon">🌙</span> </button>
+                    <a id="navOrderButton" href="#productHub" class="hidden sm:inline-flex button-primary text-sm py-2">
+                        Order Cepat
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-bg text-white min-h-[85vh] md:min-h-[calc(100vh-80px)] flex items-center justify-center py-20 relative">
+        <div class="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 font-display">
+                <span id="heroHeadline"></span><span class="typewriter-cursor"></span>
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl text-slate-100 mb-12 max-w-3xl mx-auto leading-relaxed">
+                Upgrade hidup digitalmu ke level MAX! Streaming, gaming, AI, aset kreatif—semua ada di <span id="storeNameHeroTag" class="font-bold accent2-text">Zenos Max</span>. Harga? Dijamin gak bikin kantong nangis!
+            </p>
+            <div class="space-y-4 sm:space-y-0 sm:flex sm:justify-center sm:space-x-6">
+                <a href="#productHub" class="button-primary text-lg px-10 py-4">
+                    🚀 Cek Produknya Cuy!
+                </a>
+                <a id="heroWaButtonContact" href="#" target="_blank" class="button-secondary text-lg px-10 py-4 border-white text-white hover:bg-white hover:text-slate-900">
+                    🤙 Ngobrol Sama Admin
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base accent1-text font-semibold tracking-wide uppercase font-display">Kenapa Pilih Zenos Max?</h2>
+                <p class="mt-2 text-3xl lg:text-4xl font-black tracking-tight sm:text-4xl font-display">
+                    Karena Kamu Deserve yang <span class="accent2-text">Ter-EPIC!</span>
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="card-bg p-6 rounded-xl shadow-lg text-center transform transition-all hover:scale-105 hover:shadow-2xl border-t-4 border-var(--accent1-light)">
+                    <div class="text-5xl mb-5 accent1-text">💨</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Secepat Flash</h3>
+                    <p class="text-sm opacity-80 leading-relaxed">Order & aktivasi? Gak pake lama, langsung gaspol!</p>
+                </div>
+                <div class="card-bg p-6 rounded-xl shadow-lg text-center transform transition-all hover:scale-105 hover:shadow-2xl border-t-4 border-var(--accent2-light)">
+                    <div class="text-5xl mb-5 accent2-text">👑</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Akun Sultan</h3>
+                    <p class="text-sm opacity-80 leading-relaxed">Resmi, aman, bergaransi. Kualitasnya bukan kaleng-kaleng!</p>
+                </div>
+                <div class="card-bg p-6 rounded-xl shadow-lg text-center transform transition-all hover:scale-105 hover:shadow-2xl border-t-4 border-var(--accent1-light)">
+                    <div class="text-5xl mb-5 accent1-text">💯</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Harga Nggak Nyekek</h3>
+                    <p class="text-sm opacity-80 leading-relaxed">Premium tapi gak bikin dompet tipis. Gen Z approved!</p>
+                </div>
+                <div class="card-bg p-6 rounded-xl shadow-lg text-center transform transition-all hover:scale-105 hover:shadow-2xl border-t-4 border-var(--accent2-light)">
+                    <div class="text-5xl mb-5 accent2-text">🤙</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Admin Super Friendly</h3>
+                    <p class="text-sm opacity-80 leading-relaxed">Nanya-nanya? Curhat? Admin siap sedia 24/7 di WA.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="productHub" class="py-16 md:py-24 bg-slate-100 dark:bg-gray-900/70">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-black tracking-tight text-color font-display">Pilih <span class="accent1-text">Senjata Digitalmu</span> Sekarang!</h2>
+                <p class="mt-4 max-w-2xl text-xl opacity-80 mx-auto">
+                    Mau nge-chill, ngedit, atau jadi pro player? <span id="storeNameProductHub" class="font-bold accent2-text">Zenos Max</span> punya semua yang kamu butuhin.
+                </p>
+            </div>
+
+            <div class="mb-10 p-4 sm:p-6 card-bg rounded-xl shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                    <div class="relative">
+                        <label for="categoryFilter" class="absolute -top-2.5 left-3 inline-block bg-var(--card-light) px-1 text-xs font-medium text-var(--text-light) opacity-80">Kategori Apaan?</label>
+                        <select id="categoryFilter" class="w-full p-3 border-2 border-color rounded-lg shadow-sm focus:ring-var(--accent1-light) focus:border-var(--accent1-light) card-bg text-color appearance-none font-semibold">
+                            <option value="all">Semua Kategori, Bro!</option>
+                            </select>
+                    </div>
+                    <div class="md:col-span-2 relative">
+                        <label for="searchProduct" class="absolute -top-2.5 left-3 inline-block bg-var(--card-light) px-1 text-xs font-medium text-var(--text-light) opacity-80">Lagi Nyari Apaan?</label>
+                        <input type="text" id="searchProduct" placeholder="Ketik aja di sini..." class="w-full p-3 border-2 border-color rounded-lg shadow-sm focus:ring-var(--accent1-light) focus:border-var(--accent1-light) card-bg text-color font-semibold">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                </div>
+            <p id="noResultsMessage" class="text-center text-2xl opacity-70 mt-12 font-display hidden">Yah, produknya lagi main petak umpet! Coba kata kunci lain, kuy.</p>
+        </div>
+    </section>
+
+    <section id="howToOrder" class="py-16 md:py-24">
+         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base accent1-text font-semibold tracking-wide uppercase font-display">Order? Gampang Pisan!</h2>
+                <p class="mt-2 text-3xl lg:text-4xl font-black tracking-tight sm:text-4xl font-display">
+                    Gini Nih Cara <span class="accent2-text">Nambahin Pesananmu</span>
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="card-bg p-8 rounded-xl shadow-lg transform transition-all hover:scale-105 border-b-4 border-var(--accent1-light)">
+                    <div class="how-to-order-step-icon">1</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Pilih Produknya</h3>
+                    <p class="opacity-80 text-sm">Scroll atau cari produk digital yang kamu mau. Udah nemu? Mantap!</p>
+                </div>
+                <div class="card-bg p-8 rounded-xl shadow-lg transform transition-all hover:scale-105 border-b-4 border-var(--accent2-light)">
+                    <div class="how-to-order-step-icon">2</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Klik "Tambah ke Pesanan"</h3>
+                    <p class="opacity-80 text-sm">Di setiap produk ada tombolnya. Klik aja buat masukin ke keranjang belanjamu.</p>
+                </div>
+                <div class="card-bg p-8 rounded-xl shadow-lg transform transition-all hover:scale-105 border-b-4 border-var(--accent1-light)">
+                    <div class="how-to-order-step-icon">3</div>
+                    <h3 class="text-xl font-semibold mb-2 font-display">Cek & Kirim via WA</h3>
+                    <p class="opacity-80 text-sm">Klik ikon 🛍️ di pojok kanan bawah, cek lagi pesananmu. Udah oke? Langsung kirim ke Admin via WhatsApp!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <button id="floatingOrderButton" class="floating-order-btn group" aria-label="Lihat Pesanan">
+        <span class="text-2xl group-hover:animate-bounce">🛍️</span>
+        <span id="orderItemCount" class="item-count hidden">0</span>
+    </button>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-color">
+                <h3 class="text-2xl font-bold text-color font-display">Keranjang Belanja Kamu Nih!</h3>
+                <button id="closeOrderModal" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-2xl" aria-label="Tutup">&times;</button>
+            </div>
+            <div id="orderSummary" class="space-y-3 mb-6 max-h-60 overflow-y-auto pr-2">
+                <p class="text-center opacity-70 py-4">Keranjang masih kosong, Bro/Sis. Pilih produk dulu!</p>
+            </div>
+            <div class="border-t border-color pt-4">
+                <div class="flex justify-between items-center font-bold text-lg mb-6">
+                    <span class="font-display">Total Harga:</span>
+                    <span id="orderTotal" class="accent1-text">Rp 0</span>
+                </div>
+                <button id="sendOrderViaWhatsApp" class="w-full button-primary text-base py-3.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100" disabled>
+                    Kirim Orderan ke Admin (WA)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="#" class="text-4xl font-black mb-4 inline-block font-display">
+                <span id="storeNameFooter" class="text-sky-400">Zenos Max</span>
+            </a>
+            <p class="mb-6 max-w-md mx-auto text-sm">Your one-stop digital emporium. Fueling your digital life since <span id="currentYear"></span>.</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#" class="hover:text-sky-400 transition-colors text-xs">INSTAGRAM</a>
+                <a href="#" class="hover:text-sky-400 transition-colors text-xs">TIKTOK</a>
+                <a id="footerWaLink" href="#" target="_blank" class="hover:text-sky-400 transition-colors text-xs">WHATSAPP ADMIN</a>
+            </div>
+            <p class="text-xs opacity-70">&copy; <span id="footerCurrentYear"></span> <span id="footerStoreName">Zenos Max</span>. All Rights Reserved. Keep Being Awesome!</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- KONFIGURASI TOKO ---
+        const STORE_NAME_CONFIG = "Zenos Max"; 
+        const WHATSAPP_NUMBER_CONFIG = "6282118699431"; // Ganti dengan Nomor WhatsApp Anda
+        const HERO_HEADLINES_CONFIG = [
+            `Welcome to ${STORE_NAME_CONFIG}!`,
+            "Digital Playground Starts Here.",
+            "Unlock Premium Access.",
+            "Your Next Digital Adventure!"
+        ];
+        // --- AKHIR KONFIGURASI TOKO ---
+
+        const pricelistData = [
+            { name: "Netflix 1P1U", duration: "1 Bulan", price: 23000, category: "Netflix", icon: "🎬" },
+            { name: "Netflix 1P2U", duration: "1 Bulan", price: 15000, category: "Netflix", icon: "🎬" },
+            { name: "Netflix Semi Private", duration: "1 Bulan", price: 26000, category: "Netflix", icon: "🎬" },
+            { name: "Netflix Private", duration: "1 Bulan", price: 99000, category: "Netflix", icon: "🎬" },
+            { name: "Capcut Sharing", duration: "1 Bulan", price: 13000, category: "Capcut", icon: "✂️" },
+            { name: "Capcut Sharing", duration: "1 Tahun", price: 36000, category: "Capcut", icon: "✂️" },
+            { name: "Capcut Private", duration: "1 Bulan", price: 26000, category: "Capcut", icon: "✂️" },
+            { name: "Youtube Indplan", duration: "1 Bulan", price: 12000, category: "Youtube Premium", icon: "▶️" },
+            { name: "Youtube Indplan", duration: "3 Bulan", price: 27000, category: "Youtube Premium", icon: "▶️" },
+            { name: "Youtube Famplan", duration: "1 Bulan", price: 5000, category: "Youtube Premium", icon: "▶️" },
+            { name: "Youtube Famplan", duration: "2 Bulan", price: 9500, category: "Youtube Premium", icon: "▶️" },
+            { name: "Youtube Famplan", duration: "3 Bulan", price: 10500, category: "Youtube Premium", icon: "▶️" },
+            { name: "Canva Pro", duration: "1 Bulan", price: 7000, category: "Canva", icon: "🎨" },
+            { name: "Canva Pro", duration: "1 Tahun", price: 15000, category: "Canva", icon: "🎨" },
+            { name: "Viu Premium", duration: "1 Bulan", price: 6000, category: "Viu", icon: "🎞️" },
+            { name: "Viu Premium", duration: "2 Bulan", price: 9000, category: "Viu", icon: "🎞️" },
+            { name: "Viu Premium", duration: "3 Bulan", price: 12000, category: "Viu", icon: "🎞️" },
+            { name: "Viu Premium", duration: "6 Bulan", price: 16000, category: "Viu", icon: "🎞️" },
+            { name: "Viu Premium", duration: "1 Tahun", price: 19000, category: "Viu", icon: "🎞️" },
+            { name: "WeTV VIP", duration: "1 Bulan", price: 19000, category: "WeTV", icon: "📺" },
+            { name: "WeTV VIP", duration: "3 Bulan", price: 26000, category: "WeTV", icon: "📺" },
+            { name: "WeTV VIP", duration: "1 Tahun", price: 33000, category: "WeTV", icon: "📺" },
+            { name: "WeTV Private", duration: "1 Bulan", price: 39000, category: "WeTV", icon: "📺" },
+            { name: "HBO Go Max", duration: "1 Bulan", price: 16000, category: "HBO Go", icon: "📽️" },
+            { name: "Bstation Premium", duration: "1 Bulan", price: 12000, category: "Bstation", icon: "ანი" },
+            { name: "Bstation Premium", duration: "3 Bulan", price: 18000, category: "Bstation", icon: "ანი" },
+            { name: "Bstation Premium", duration: "1 Tahun", price: 26000, category: "Bstation", icon: "ანი" },
+            { name: "IQIYI VIP", duration: "1 Bulan", price: 12000, category: "IQIYI", icon: "🌟" },
+            { name: "IQIYI VIP", duration: "3 Bulan", price: 19000, category: "IQIYI", icon: "🌟" },
+            { name: "IQIYI VIP", duration: "1 Tahun", price: 26000, category: "IQIYI", icon: "🌟" },
+            { name: "IQIYI Private", duration: "1 Bulan", price: 33000, category: "IQIYI", icon: "🌟" },
+            { name: "Alight Motion Pro", duration: "1 Bulan", price: 6000, category: "Alight Motion", icon: "✨" },
+            { name: "Alight Motion Pro", duration: "1 Tahun", price: 16000, category: "Alight Motion", icon: "✨" },
+            { name: "Alight Motion Private", duration: "1 Tahun", price: 21000, category: "Alight Motion", icon: "✨" },
+            { name: "Gemini AI Advanced", duration: "1 Bulan", price: 13000, category: "Gemini AI", icon: "💡" }, 
+            { name: "Terabox Sharing", duration: "Lifetime", price: 26000, category: "Terabox", icon: "📦" }, 
+            { name: "Disney+ Hotstar", duration: "1 Bulan", price: 35000, category: "Disney+", icon: "🏰" }, 
+            { name: "Disney+ Hotstar 6 User", duration: "1 Bulan", price: 26000, category: "Disney+", icon: "🏰" } 
+        ];
+
+        let currentOrder = [];
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        const storeNameNavEl = document.getElementById('storeNameNav');
+        const storeNameFeaturesEl = document.getElementById('storeNameFeatures');
+        const storeNameHeroTagEl = document.getElementById('storeNameHeroTag');
+        const storeNameProductHubEl = document.getElementById('storeNameProductHub');
+        const heroHeadlineEl = document.getElementById('heroHeadline');
+        const heroWaButtonContactEl = document.getElementById('heroWaButtonContact');
+        const categoryFilterEl = document.getElementById('categoryFilter');
+        const searchProductEl = document.getElementById('searchProduct');
+        const productsContainerEl = document.getElementById('productsContainer');
+        const noResultsMessageEl = document.getElementById('noResultsMessage');
+        const floatingOrderButtonEl = document.getElementById('floatingOrderButton');
+        const orderItemCountEl = document.getElementById('orderItemCount');
+        const orderModalEl = document.getElementById('orderModal');
+        const closeOrderModalEl = document.getElementById('closeOrderModal');
+        const orderSummaryEl = document.getElementById('orderSummary');
+        const orderTotalEl = document.getElementById('orderTotal');
+        const sendOrderViaWhatsAppEl = document.getElementById('sendOrderViaWhatsApp');
+        const darkModeToggleEl = document.getElementById('darkModeToggle');
+        const storeNameFooterEl = document.getElementById('storeNameFooter');
+        const currentYearEl = document.getElementById('currentYear');
+        const footerCurrentYearEl = document.getElementById('footerCurrentYear');
+        const footerStoreNameEl = document.getElementById('footerStoreName');
+        const footerWaLinkEl = document.getElementById('footerWaLink');
+        const darkModeIconEl = darkModeToggleEl.querySelector('.dark-mode-icon');
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+        }
+
+        function applyDarkMode(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                if(darkModeIconEl) darkModeIconEl.textContent = '☀️'; 
+            } else {
+                document.documentElement.classList.remove('dark');
+                if(darkModeIconEl) darkModeIconEl.textContent = '🌙'; 
+            }
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        function typewriterEffect(element, textArray, period = 2500) { 
+            if (!element || !textArray || textArray.length === 0) return;
+            let currentTextIndex = 0;
+            let currentText = '';
+            let isDeleting = false;
+            let charIndex = 0;
+
+            function type() {
+                const fullText = textArray[currentTextIndex];
+                if (isDeleting) {
+                    currentText = fullText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    currentText = fullText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                element.innerHTML = currentText; 
+
+                let typeSpeed = 80; 
+                if (isDeleting) typeSpeed = 40;
+
+                if (!isDeleting && currentText === fullText) {
+                    typeSpeed = period; 
+                    isDeleting = true;
+                } else if (isDeleting && currentText === '') {
+                    isDeleting = false;
+                    currentTextIndex = (currentTextIndex + 1) % textArray.length;
+                    typeSpeed = 300; 
+                }
+                setTimeout(type, typeSpeed);
+            }
+            type();
+        }
+        
+        function populateCategories() {
+            const categories = [...new Set(pricelistData.map(p => p.category))].sort();
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilterEl.appendChild(option);
+            });
+        }
+
+        function renderProducts(filteredProducts = pricelistData) {
+            productsContainerEl.innerHTML = '';
+            if (filteredProducts.length === 0) {
+                noResultsMessageEl.classList.remove('hidden');
+                return;
+            }
+            noResultsMessageEl.classList.add('hidden');
+
+            filteredProducts.forEach((plan, index) => {
+                const productItemCard = document.createElement('div');
+                productItemCard.className = 'product-item-card-multicolumn animate-pop-in';
+                productItemCard.style.animationDelay = `${index * 0.03}s`;
+
+                const uniqueId = `${plan.name.replace(/\s+/g, '-')}-${plan.duration.replace(/\s+/g, '-')}`;
+                const isInOrder = currentOrder.some(item => item.id === uniqueId);
+                
+                productItemCard.innerHTML = `
+                    <div class="product-item-multicolumn-grid">
+                        <div class="product-item-left-col">
+                            <span class="product-item-icon">${plan.icon || '✨'}</span>
+                            <h4 class="product-item-name">${plan.name}</h4>
+                            <p class="product-item-category-tag">${plan.category}</p>
+                        </div>
+                        <div class="product-item-right-col">
+                            <div>
+                                <p class="product-item-duration-label">Durasi:</p>
+                                <p class="product-item-duration-value">${plan.duration}</p>
+                                <p class="product-item-price-label">Harga:</p>
+                                <p class="product-item-price-value">${formatPrice(plan.price)}</p>
+                            </div>
+                            <button data-id="${uniqueId}" data-name="${plan.name}" data-duration="${plan.duration}" data-price="${plan.price}" 
+                                    class="add-to-order-btn ${isInOrder ? 'added' : ''}">
+                                ${isInOrder ? 'Ditambahkan ✔' : 'Tambah ke Pesanan'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsContainerEl.appendChild(productItemCard);
+            });
+
+            document.querySelectorAll('.add-to-order-btn').forEach(button => {
+                button.addEventListener('click', handleAddToOrder);
+            });
+        }
+
+
+        function handleFilterAndSearch() {
+            const category = categoryFilterEl.value;
+            const searchTerm = searchProductEl.value.toLowerCase();
+            
+            const filtered = pricelistData.filter(product => {
+                const matchesCategory = category === 'all' || product.category === category;
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || product.category.toLowerCase().includes(searchTerm) || product.duration.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+            renderProducts(filtered);
+        }
+
+        function handleAddToOrder(event) {
+            const button = event.target;
+            const { id, name, duration, price } = button.dataset;
+            const priceNum = parseFloat(price);
+
+            const existingItemIndex = currentOrder.findIndex(item => item.id === id);
+
+            if (existingItemIndex > -1) { 
+                currentOrder.splice(existingItemIndex, 1);
+                button.textContent = 'Tambah ke Pesanan';
+                button.classList.remove('added');
+            } else { 
+                currentOrder.push({ id, name, duration, price: priceNum, quantity: 1 });
+                button.textContent = 'Ditambahkan ✔';
+                button.classList.add('added');
+            }
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            orderSummaryEl.innerHTML = '';
+            if (currentOrder.length === 0) {
+                orderSummaryEl.innerHTML = '<p class="text-center opacity-70 py-4">Keranjang masih kosong nih, yuk pilih produk!</p>';
+                orderItemCountEl.classList.add('hidden');
+                sendOrderViaWhatsAppEl.disabled = true;
+            } else {
+                let total = 0;
+                currentOrder.forEach(item => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'order-item';
+                    itemEl.innerHTML = `
+                        <div class="flex-grow mr-2">
+                            <p class="font-medium text-sm">${item.name} (${item.duration})</p>
+                            <p class="text-xs opacity-80">${formatPrice(item.price)}</p>
+                        </div>
+                        <button data-id="${item.id}" class="remove-order-item-btn text-red-500 hover:text-red-700 text-xs font-semibold p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/50">Hapus</button>
+                    `;
+                    orderSummaryEl.appendChild(itemEl);
+                    total += item.price * item.quantity;
+                });
+                orderItemCountEl.textContent = currentOrder.length;
+                orderItemCountEl.classList.remove('hidden');
+                sendOrderViaWhatsAppEl.disabled = false;
+
+                document.querySelectorAll('.remove-order-item-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const itemIdToRemove = e.target.dataset.id;
+                        currentOrder = currentOrder.filter(item => item.id !== itemIdToRemove);
+                        const productCardButton = document.querySelector(`.add-to-order-btn[data-id="${itemIdToRemove}"]`);
+                        if (productCardButton) {
+                            productCardButton.textContent = 'Tambah ke Pesanan';
+                            productCardButton.classList.remove('added');
+                        }
+                        updateOrderSummary();
+                    });
+                });
+            }
+            orderTotalEl.textContent = formatPrice(currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+        }
+        
+        function generateWhatsAppMessage() {
+            if (currentOrder.length === 0) return "Tidak ada produk yang dipesan.";
+            let message = `Halo Admin ${STORE_NAME_CONFIG}, saya mau order:\n\n`;
+            currentOrder.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} (${item.duration}) - ${formatPrice(item.price)}\n`;
+            });
+            const total = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\nTotal: ${formatPrice(total)}\n\nMohon info lanjut untuk pembayaran. Thanks!`;
+            return message;
+        }
+
+        if(darkModeToggleEl) darkModeToggleEl.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            applyDarkMode(isDarkMode);
+        });
+
+        if(categoryFilterEl) categoryFilterEl.addEventListener('change', handleFilterAndSearch);
+        if(searchProductEl) searchProductEl.addEventListener('input', handleFilterAndSearch);
+
+        if(floatingOrderButtonEl) floatingOrderButtonEl.addEventListener('click', () => orderModalEl.classList.add('open'));
+        if(closeOrderModalEl) closeOrderModalEl.addEventListener('click', () => orderModalEl.classList.remove('open'));
+        if(orderModalEl) orderModalEl.addEventListener('click', (e) => { 
+            if (e.target === orderModalEl) orderModalEl.classList.remove('open');
+        });
+
+        if(sendOrderViaWhatsAppEl) sendOrderViaWhatsAppEl.addEventListener('click', () => {
+            const message = generateWhatsAppMessage();
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER_CONFIG}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            applyDarkMode(isDarkMode); 
+
+            if(storeNameNavEl) storeNameNavEl.innerHTML = `<span class="accent1-text">${STORE_NAME_CONFIG}</span>`;
+            if(storeNameFeaturesEl) storeNameFeaturesEl.innerHTML = `<span class="accent1-text">${STORE_NAME_CONFIG}</span> Pilihan Tepat?`;
+            if(storeNameHeroTagEl) storeNameHeroTagEl.textContent = STORE_NAME_CONFIG;
+            if(storeNameProductHubEl) storeNameProductHubEl.innerHTML = `<span class="font-bold accent2-text">${STORE_NAME_CONFIG}</span> punya solusinya.`;
+
+
+            if(heroWaButtonContactEl) heroWaButtonContactEl.href = `https://wa.me/${WHATSAPP_NUMBER_CONFIG}?text=${encodeURIComponent(`Halo Admin ${STORE_NAME_CONFIG}, saya mau tanya-tanya dong.`)}`;
+            
+            if(storeNameFooterEl) storeNameFooterEl.innerHTML = `<span class="text-sky-400">${STORE_NAME_CONFIG}</span>`;
+            const year = new Date().getFullYear();
+            if(currentYearEl) currentYearEl.textContent = year;
+            if(footerCurrentYearEl) footerCurrentYearEl.textContent = year;
+            if(footerStoreNameEl) footerStoreNameEl.textContent = STORE_NAME_CONFIG;
+            if(footerWaLinkEl) footerWaLinkEl.href = `https://wa.me/${WHATSAPP_NUMBER_CONFIG}?text=${encodeURIComponent(`Halo Admin ${STORE_NAME_CONFIG}, saya lihat dari landing page.`)}`;
+
+            if (heroHeadlineEl && HERO_HEADLINES_CONFIG && HERO_HEADLINES_CONFIG.length > 0) {
+                typewriterEffect(heroHeadlineEl, HERO_HEADLINES_CONFIG);
+            }
+            
+            if(categoryFilterEl) populateCategories();
+            if(productsContainerEl) renderProducts(); 
+            if(orderSummaryEl) updateOrderSummary(); 
+        });
+
+    </script>
+</body>
+</html>
